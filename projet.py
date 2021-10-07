@@ -11,21 +11,8 @@ def creation():
     file = open ("Name.csv","w")
     newrecord = "firstname ,Lastname ,poste ,username ,email \n \n"
     file.write(str(newrecord))
-    firstname = input("Enter your firstname: ")
-    fname = firstname
-    lastname = input("Enter your last name: ")
-    lname = lastname
-    poste = input("Enter your poste: ")
-    firstname = firstname.lower()
-    lastname = lastname.lower()
-    fullname = firstname + lastname
-    firstname = firstname[0]
-    username = firstname + lastname
-    email = fullname+"@coding.com"
-    newrecord = fname + " ," + lname + " ,"+ poste + " ,"+ username + " ,"+ email +"\n"
-    file.write(str(newrecord))
     file.close()
-    return fname, lname, poste, username, email
+    return newrecord
 
 # Ajouter un nouveau membre
 def ajouter():
@@ -38,6 +25,7 @@ def ajouter():
     firstname = firstname.lower()
     lastname = lastname.lower()
     fullname = firstname + lastname
+    fullname.strip(fullname)
     firstname = firstname[0]
     username = firstname + lastname
     email = fullname+"@coding.com"
@@ -60,29 +48,23 @@ def recherche():
     return row
 
 # Effacer un membre
-def delete():
-    file = list(csv.reader(open("Name.csv")))
-    ensname = []
-    for row in file:
-        ensname.append(row)
-        
+def effacer ():
+    file = open("Name.csv","r")
     x = 0
-    for row in ensname:
-        display = x,ensname[x]
-        print(display)
+    tmplist = []
+    for row in file:
+        tmplist.append(row)
+    file.close()
+    for row in tmplist:
+        print (x, row)
         x = x + 1
-    getrid = int(input("Entrer le numero de la ligne que vous voulez supprimer: "))
-    del ensname[getrid]
-
-    file = open("Name.csv", "w")
-    x = 0    
-    for row in ensname:
-        newrecord = ensname[x][0]+ ", " + ensname[x][1]+ ", " + ensname[x][2] + ", " + ensname[x][3]+ ", " + ensname[x][4]+ ", "+ "\n"
-        file.write(newrecord)
-        x = x+1
+    rowtodelete = int (input ("Enter the row number to delete: "))
+    del tmplist [rowtodelete]
+    file = open("Name.csv","w")
+    for row in tmplist: 
+        file.write (row)
     file.close()
     
-    return newrecord
 
 def modifier():
     file = list(csv.reader(open("Name.csv")))
@@ -105,15 +87,13 @@ def modifier():
     newdata = input("Entrer le nouveau mot: ")
     ensname[alter][part] = newdata
     
-    file = open("Name.csv", "w")
+    file = open("Name.csv","w")
     x = 0
     for row in ensname:
-        newrecord = ensname[x][0]+ ", " + ensname[x][1]+ ", " + ensname[x][2] + ", " + ensname[x][3]+ ", " + ensname[x][4]+ ", "+ "\n"
-        file.write(newrecord)
-        x = x+1
+        newrecord = ensname[x][0] + ", " + ensname[x][1] + ", " + ensname[x][2] + ", " + ensname[x][3] + ", " + ensname[x][4] + "\n" 
+        file.write(str(newrecord))
+        x = x + 1
     file.close()
-    
-    return ensname[alter]
 
 
 # Lire la liste
@@ -133,9 +113,10 @@ if choix == 1:
         password = input("Entrer votre mot de passe: ")
         if mot_de_passe == password:
             print("Bonjour!\n Que voulez-vous faire? Tapez: ")
-            choisir = int(input("1) Si vous voulez creer le fichier\n 2) Si vous voulez ajouter un nouvel employer\n 3) Si voulez faire une recherche\n 4) si vous voulez effaser les information d'un employer\n 5) Si vous voulez lire la liste\n 6) Si voulez modifier un nom\n: "))
+            choisir = int(input("1) Si vous voulez creer le fichier\n 2) Si vous voulez ajouter un nouvel employer\n 3) Si voulez faire une recherche\n 4) si vous voulez effaser les information d'un employer\n 5) Si vous voulez lire la liste\n 6) Si vous voulez modifier un nom\n : "))
             if choisir == 1:
                 print(creation())
+                print("Le ficher a ete cree avec succes.")
             elif choisir == 2: # Pour ajouter
                 print(ajouter())
                 autre = input("Voulez-vous ajouter quelqu'un d'autre (y/n): ")
@@ -150,12 +131,13 @@ if choix == 1:
             elif choisir == 3: # Pour faire une recherche
                 print(recherche())
             elif choisir == 4: # Pour effacer
-                print(delete())
-                print("Cette ligne a ete supprime")
+                print(effacer())
+                print(lecture())
+                print("La ligne a ete supprime")
                 autre = input("Voulez-vous effacer quelqu'un d'autre (y/n): ")
                 autre = autre.lower()
                 if autre == "y":
-                    print(delete())
+                    print(effacer())
                 elif autre == "n":
                     print("Merci et au revoir!")
                     print("Cette ligne a ete supprime")   
@@ -166,16 +148,19 @@ if choix == 1:
                 print(lecture())
             elif choisir == 6:
                 print(modifier())
-                autre = input("Voulez-vous effacer quelqu'un d'autre (y/n): ")
+                print(lecture())
+                print("La ligne a ete modifier")
+                autre = input("Voulez-vous modifier quelque chose d'autre (y/n): ")
                 autre = autre.lower()
                 if autre == "y":
-                    print(delete())
+                    print(modifier())
+                    print(lecture())
+                    print("La ligne a ete modifier")
                 elif autre == "n":
-                    print("Merci et au revoir!")
-                    print("Cette ligne a ete supprime")   
+                    print("Merci et au revoir!")  
                 else:
                     print("Choix incorrect")
-                    break                
+                    break
             else:
                 print("Choix incorrect")
                 break
