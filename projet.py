@@ -4,7 +4,11 @@ def menu():
     print("Qui etes vous?\n")
     tryagain = True
     while tryagain == True:
-        choix = int(input("Tapez:\n 1) si vous etes le directeur \n 2) si vous etes un simple utilisateur\n: "))
+        try:
+            choix = int(input("Tapez:\n 1) si vous etes le directeur \n 2) si vous etes un simple utilisateur\n: "))
+        except ValueError:
+            print("Choix incorrect")
+            continue
         if choix == 1:
             print(mot_de_passe())
             tryagain = False
@@ -146,7 +150,11 @@ def directeur():
     print("Bonjour!\n Que voulez-vous faire? ")
     tryagain = True
     while tryagain == True:
-        choisir = int(input("Tapez:\n 1) Si vous voulez creer le fichier\n 2) Si vous voulez ajouter un nouvel employer\n 3) Si voulez faire une recherche\n 4) si vous voulez effacer les informations d'un employer\n 5) Si vous voulez lire la liste\n 6) Si vous voulez modifier un nom\n 7) Si vous voulez quitter le programme\n: "))
+        try:
+            choisir = int(input("Tapez:\n 1) Si vous voulez creer le fichier\n 2) Si vous voulez ajouter un nouvel employer\n 3) Si voulez faire une recherche\n 4) si vous voulez effacer les informations d'un employer\n 5) Si vous voulez lire la liste\n 6) Si vous voulez modifier un nom\n 7) Si vous voulez quitter le programme\n: "))
+        except ValueError:
+            print("Choix incorrect")
+            continue
         if choisir == 1:
             print(creation())
             print("Le ficher a ete cree avec succes.")
@@ -214,8 +222,11 @@ def directeur():
 def simple_utilisateur():
     tryagain = True
     while tryagain == True:
-        deux = int(input("Ecrivez\n 1) Si vous voulez ajouter votre nom\n 2) Si vous voulez quitter le programme\n :"))
-        
+        try:
+            deux = int(input("Ecrivez\n 1) Si vous voulez ajouter votre nom\n 2) Si vous voulez quitter le programme\n :"))
+        except ValueError:
+            print("Choix incorrect")
+            continue
         if deux == 1: 
             print("N.B: Regarder votre username et votre email attentivement\n", ajouter() )
             tryagain = False
