@@ -1,15 +1,24 @@
 import csv
 
 def menu():
-    print("Qui etes vous?\n Tapez:\n")
+    print("Qui etes vous?\n")
+    tryagain = True
+    while tryagain == True:
+        choix = int(input("Tapez:\n 1) si vous etes le directeur \n 2) si vous etes un simple utilisateur\n: "))
+        if choix == 1:
+            print(mot_de_passe())
+            tryagain = False
+        elif choix == 2:
+            print(simple_utilisateur())
+            tryagain = False
+        else:
+            print("Choix incorrect")
 
-menu()
-choix = int(input("1) si vous etes le directeur \n 2) si vous etes un simple utilisateur\n: "))
 
 # Creation du fichier
 def creation():
     file = open ("Name.csv","w")
-    newrecord = "firstname ,Lastname ,poste ,username ,email \n \n"
+    newrecord = "firstname ,Lastname ,poste ,username ,email \n"
     file.write(str(newrecord))
     file.close()
     return newrecord
@@ -25,7 +34,7 @@ def ajouter():
     firstname = firstname.lower()
     lastname = lastname.lower()
     fullname = firstname + lastname
-    fullname.strip(fullname)
+    fullname = fullname.replace(" ", "")
     firstname = firstname[0]
     username = firstname + lastname
     email = fullname+"@coding.com"
@@ -104,52 +113,83 @@ def lecture():
     file.close()
 
 
-# Si c'est le directeur
-
-if choix == 1:
+# Mot de passe
+def mot_de_passe():
     compteur = 1
     while compteur <= 3:
-        mot_de_passe = "Directeur"
+        mot_de_pass = "Directeur"
         password = input("Entrer votre mot de passe: ")
-        if mot_de_passe == password:
-            print("Bonjour!\n Que voulez-vous faire? Tapez: ")
-            choisir = int(input("1) Si vous voulez creer le fichier\n 2) Si vous voulez ajouter un nouvel employer\n 3) Si voulez faire une recherche\n 4) si vous voulez effaser les information d'un employer\n 5) Si vous voulez lire la liste\n 6) Si vous voulez modifier un nom\n : "))
-            if choisir == 1:
-                print(creation())
-                print("Le ficher a ete cree avec succes.")
-            elif choisir == 2: # Pour ajouter
-                print(ajouter())
+        if mot_de_pass == password:
+            print(directeur())
+            break
+        else:
+            print("Mot de passe incorrect")
+            compteur = compteur + 1
+
+# Pour ajouter quelqu'un d'autre            
+def qqch_autre():
+    verif = True
+    while verif == True:
+        qqch2 = input("Voulez-vous faire quelque chose d'autre? (y/n)\n: ")
+        qqch2 = qqch2.lower()
+        if qqch2 == "y":
+            print(directeur())
+        elif qqch2 == "n":
+            print("Merci et au revoir")
+            quit()
+        else:
+            print("Choix incorrect")
+            
+# Si c'est le directeur    
+def directeur():
+    print("Bonjour!\n Que voulez-vous faire? ")
+    tryagain = True
+    while tryagain == True:
+        choisir = int(input("Tapez:\n 1) Si vous voulez creer le fichier\n 2) Si vous voulez ajouter un nouvel employer\n 3) Si voulez faire une recherche\n 4) si vous voulez effacer les informations d'un employer\n 5) Si vous voulez lire la liste\n 6) Si vous voulez modifier un nom\n 7) Si vous voulez quitter le programme\n: "))
+        if choisir == 1:
+            print(creation())
+            print("Le ficher a ete cree avec succes.")
+            tryagain = False
+        elif choisir == 2: # Pour ajouter
+            print(ajouter())
+            encore = True
+            while encore == True:
                 autre = input("Voulez-vous ajouter quelqu'un d'autre (y/n): ")
                 autre = autre.lower()
                 if autre == "y":
-                    print(ajouter())
-                elif autre == "n": # Pour ajouter
-                    print("Merci et au revoir!")
+                    print(ajouter()) # Pour ajouter
+                elif autre == "n": 
+                    break
                 else:
                     print("Choix incorrect")
-                    break
-            elif choisir == 3: # Pour faire une recherche
-                print(recherche())
-            elif choisir == 4: # Pour effacer
-                print(effacer())
-                print(lecture())
-                print("La ligne a ete supprime")
+            tryagain = False
+        elif choisir == 3: # Pour faire une recherche
+            print(recherche())
+            tryagain = False
+        elif choisir == 4: # Pour effacer
+            print(effacer())
+            print(lecture())
+            print("La ligne a ete supprime")
+            encore = True
+            while encore == True:
                 autre = input("Voulez-vous effacer quelqu'un d'autre (y/n): ")
                 autre = autre.lower()
                 if autre == "y":
                     print(effacer())
                 elif autre == "n":
-                    print("Merci et au revoir!")
-                    print("Cette ligne a ete supprime")   
+                    break
                 else:
                     print("Choix incorrect")
-                    break
-            elif choisir == 5: # Pour lire
-                print(lecture())
-            elif choisir == 6:
-                print(modifier())
-                print(lecture())
-                print("La ligne a ete modifier")
+            tryagain = False
+        elif choisir == 5: # Pour lire
+            print(lecture())
+            tryagain = False
+        elif choisir == 6:
+            print(modifier())
+            print(lecture())
+            print("La ligne a ete modifier")
+            encore = True
+            while encore == True:
                 autre = input("Voulez-vous modifier quelque chose d'autre (y/n): ")
                 autre = autre.lower()
                 if autre == "y":
@@ -157,22 +197,37 @@ if choix == 1:
                     print(lecture())
                     print("La ligne a ete modifier")
                 elif autre == "n":
-                    print("Merci et au revoir!")  
+                    break  
                 else:
                     print("Choix incorrect")
-                    break
-            else:
-                print("Choix incorrect")
-                break
-            break
+            tryagain = False
+        elif choisir == 7:
+            print("Merci et au revoir")
+            quit()
         else:
-            print("Mot de passe incorrect")
-            compteur = compteur + 1
-elif choix == 2: # Simple utilisateur
-    print("N.B: Regarder votre username et votre email attentivement\n", ajouter() )
-else:
-    print("Choix incorrect")
-    menu()
-    choix = int(input("1) si vous etes le directeur \n 2) si vous etes un simple utilisateur\n: "))
+            print("Choix incorrect")
+    print(qqch_autre())
+
+
+# Simple utilisateur
+def simple_utilisateur():
+    tryagain = True
+    while tryagain == True:
+        deux = int(input("Ecrivez\n 1) Si vous voulez ajouter votre nom\n 2) Si vous voulez quitter le programme\n :"))
+        
+        if deux == 1: 
+            print("N.B: Regarder votre username et votre email attentivement\n", ajouter() )
+            tryagain = False
+        elif deux == 2:
+            print("Merci et au revoir")
+            quit()
+        else:
+            print("Choix incorrect")
+
+            
+def main():
+    print(menu())
+    
+main()
 
 print("Merci et au revoir")
