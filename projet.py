@@ -48,13 +48,14 @@ def recherche():
     file = open ("Name.csv","r")
     search = input("Qui voulez-vous rechercher: ")
     reader = csv.reader(file)
+    count  = 0
     for row in file:
         if search in str(row):
             print(row)
-        else:
-            print("Cette personne n'est pas dans la liste")
+            count = count + 1
+    if count == 0:
+        print("Cette personne n'est pas dans la liste")
     file.close()
-    return row
 
 # Effacer un membre
 def effacer ():
@@ -74,7 +75,7 @@ def effacer ():
         file.write (row)
     file.close()
     
-
+    
 def modifier():
     file = list(csv.reader(open("Name.csv")))
     ensname = []
